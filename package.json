@@ -1,0 +1,54 @@
+{
+    "name": "umple",
+    "displayName": "Umple",
+    "description": "Umple for Vscode",
+    "version": "0.0.1",
+    "publisher": "digized",
+    "engines": {
+        "vscode": "^1.28.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "activationEvents": [
+        "onCommand:extension.sayHello"
+    ],
+    "main": "./out/umpleMain",
+    "contributes": {
+        "languages": [
+            {
+                "id": "umple",
+                "aliases": ["Umple Code", ".ump"],
+                "extensions": [".ump"],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "umple",
+                "scopeName": "source.umple",
+                "path": "./syntaxes/umple.tmLanguage"
+            }
+        ],
+        "snippets": [
+            {
+                "language": "umple",
+                "path": "./snippets/umple.json"
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "npm run compile && node ./node_modules/vscode/bin/test"
+    },
+    "devDependencies": {
+        "typescript": "^2.6.1",
+        "vscode": "^1.1.21",
+        "tslint": "^5.8.0",
+        "@types/node": "^8.10.25",
+        "@types/mocha": "^2.2.42"
+    }
+}

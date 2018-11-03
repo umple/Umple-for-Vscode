@@ -1,0 +1,11 @@
+{
+    "Create Class": {
+        "prefix": "class",
+        "body": [
+            "class ${1:foo} {",
+            "isA $0",
+            "}"
+        ],
+        "description": "create class"
+    }
+}
