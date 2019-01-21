@@ -12,3 +12,7 @@ export function activate() {
 // this method is called when your extension is deactivated
 export function deactivate() {
 }
+
+export function sanityTest(num: number): number {
+    return num;
+}
