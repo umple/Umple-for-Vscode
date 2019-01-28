@@ -24,11 +24,10 @@ describe("UmpleAPI.ts", function () {
                 const umpleFile = Uri.parse(path.join(umpleFolder, "test-fail.ump"));
                 try {
                     await umpleAPI.generate(umpleFile, "Java");
+                    assert.fail();
                 } catch (err) {
-                    console.log("Asdasdsa", err);
-
+                    assert.ok(err);
                 }
-                assert.equal(compileJava(Uri.parse(path.join(umpleFolder, "Student.java"))), true);
             });
         });
 
