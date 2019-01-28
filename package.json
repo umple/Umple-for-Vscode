@@ -2,7 +2,7 @@
     "name": "umple",
     "displayName": "Umple",
     "description": "Umple for Vscode",
-    "version": "0.0.1",
+    "version": "1.0.1",
     "publisher": "digized",
     "engines": {
         "vscode": "^1.28.0"
@@ -11,10 +11,17 @@
         "Programming Languages"
     ],
     "activationEvents": [
-        "onCommand:extension.sayHello"
+        "onCommand:umple.generate"
     ],
-    "main": "./out/umpleMain",
+    "main": "./out/src/extension",
     "contributes": {
+        "commands": [
+            {
+                "command": "umple.generate",
+                "title": "Generate Code from Umple",
+                "category": "Umple"
+            }
+        ],
         "languages": [
             {
                 "id": "umple",
@@ -50,10 +57,15 @@
         "test": "npm run compile && node ./node_modules/vscode/bin/test"
     },
     "devDependencies": {
-        "typescript": "^2.6.1",
-        "vscode": "^1.1.22",
-        "tslint": "^5.8.0",
+        "@types/glob": "^7.1.1",
+        "@types/mocha": "^2.2.42",
         "@types/node": "^8.10.25",
-        "@types/mocha": "^2.2.42"
-    }
+        "@types/simple-mock": "^0.8.1",
+        "glob": "^7.1.3",
+        "simple-mock": "^0.8.0",
+        "tslint": "^5.8.0",
+        "typescript": "^2.6.1",
+        "vscode": "^1.1.22"
+    },
+    "dependencies": {}
 }
