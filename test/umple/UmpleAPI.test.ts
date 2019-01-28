@@ -11,7 +11,7 @@ describe("UmpleAPI.ts", function () {
     const umpleFolder = path.join(extensionPath, "resources", "umple");
 
     describe("UmpleApi", function () {
-        describe.only("#generate", function () {
+        describe("#generate", function () {
             this.timeout(5000);
             it("should generate java code for a test umple file", async function () {
                 const umpleFile = Uri.parse(path.join(umpleFolder, "test.ump"));
