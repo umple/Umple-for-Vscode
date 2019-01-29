@@ -12,7 +12,7 @@ describe("UmpleAPI.ts", function () {
 
     describe("UmpleApi", function () {
         describe("#generate", function () {
-            this.timeout(5000);
+            this.timeout(10000);
             it("should generate java code for a test umple file", async function () {
                 const umpleFile = Uri.parse(path.join(umpleFolder, "test.ump"));
                 const result = await umpleAPI.generate(umpleFile, "Java");
