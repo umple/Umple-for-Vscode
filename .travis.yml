@@ -20,8 +20,9 @@ install:
   - npm run vscode:prepublish
 
 before_script: 
+  - env
   - unset _JAVA_OPTIONS
-  - echo "$_JAVA_OPTIONS"
+  - env
 
 script:
   - npm test --silent
