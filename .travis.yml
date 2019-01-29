@@ -21,8 +21,7 @@ install:
 
 before_script: 
   - unset _JAVA_OPTIONS
-  - echo "JAVA_OPTIONS BELOW"
-  - echo $_JAVA_OPTIONS
+  - echo "$_JAVA_OPTIONS"
 
 script:
   - npm test --silent
