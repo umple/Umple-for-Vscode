@@ -1,4 +1,4 @@
-sudo: false
+sudo: required
 
 os:
   - osx
@@ -20,7 +20,7 @@ install:
   - npm run vscode:prepublish
 
 before_script: 
-  - _JAVA_OPTIONS=
+  - unset _JAVA_OPTIONS
 
 script:
   - npm test --silent
