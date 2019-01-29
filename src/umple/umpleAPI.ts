@@ -34,6 +34,7 @@ class UmpleAPI {
         const command = params.join(" ");
         return new Promise((resolve, reject) => {
             child_process.exec(command, (err, stdout, stderr) => {
+                console.log(err, stderr, stdout);
                 if (stderr && stderr !== "") {
                     reject(stderr);
                 } else {
