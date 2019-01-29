@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/openjdk:8-stretch-jdk-node
+      - image: circleci/openjdk:8-jdk-node
 
       
       # Specify service dependencies here if necessary
