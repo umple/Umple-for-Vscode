@@ -1,4 +1,4 @@
-sudo: false
+sudo: true
 
 os:
   - osx
@@ -10,7 +10,6 @@ before_install:
       sh -e /etc/init.d/xvfb start;
       sleep 3;
     fi
-  - unset _JAVA_OPTIONS
 
 install:
   - npm install
