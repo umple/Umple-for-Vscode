@@ -26,9 +26,9 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: npm install 
+      - run: yarn install 
       
-      - run: npm run vscode:prepublish
+      - run: yarn run vscode:prepublish
 
       - save_cache:
           paths:
@@ -36,5 +36,5 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
         
       # run tests!
-      - run: npm test --silent
+      - run: yarn test --silent
 
