@@ -14,12 +14,13 @@ before_install:
       sh -e /etc/init.d/xvfb start;
       sleep 3;
     fi
-  - unset _JAVA_OPTIONS
-
 
 install:
   - npm install
   - npm run vscode:prepublish
+
+before_script: 
+  - _JAVA_OPTIONS=
 
 script:
   - npm test --silent
