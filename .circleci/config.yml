@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: loyaltyone/docker-alpine-java-node
+      - image: timbru31/java-node
       
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -26,7 +26,7 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: sudo npm install 
+      - run: npm install 
       
       - run: npm run vscode:prepublish
 
