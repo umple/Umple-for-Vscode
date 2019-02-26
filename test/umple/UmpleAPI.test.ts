@@ -16,6 +16,7 @@ describe("UmpleAPI.ts", function () {
             it("should generate java code for a test umple file", async function () {
                 const umpleFile = Uri.parse(path.join(umpleFolder, "test.ump"));
                 const result = await umpleAPI.generate(umpleFile, "Java");
+                console.log("1", result);
                 assert.equal(result[0].state, 'success');
                 assert.equal(compileJava(Uri.parse(path.join(umpleFolder, "Person.java"))), true);
             });
@@ -23,9 +24,12 @@ describe("UmpleAPI.ts", function () {
             it("should fail for an incorrect file", async function () {
                 const umpleFile = Uri.parse(path.join(umpleFolder, "test-fail.ump"));
                 try {
-                    await umpleAPI.generate(umpleFile, "Java");
+                    const result = await umpleAPI.generate(umpleFile, "Java");
+                    console.log("2", result);
+
                     assert.fail();
                 } catch (err) {
+                    console.log("3", err);
                     assert.ok(err);
                 }
             });
