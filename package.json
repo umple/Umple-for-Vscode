@@ -11,7 +11,9 @@
         "Programming Languages"
     ],
     "activationEvents": [
-        "onCommand:umple.generate"
+        "onCommand:umple.generate",
+        "onCommand:umple.lint",
+        "onLanguage:umple"
     ],
     "main": "./out/src/extension",
     "contributes": {
@@ -19,6 +21,11 @@
             {
                 "command": "umple.generate",
                 "title": "Generate Code from Umple",
+                "category": "Umple"
+            },
+            {
+                "command": "umple.lint",
+                "title": "Lint Project",
                 "category": "Umple"
             }
         ],
