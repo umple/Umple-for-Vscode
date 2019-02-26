@@ -45,7 +45,7 @@ class UmpleAPI {
                 if (stderr && stderr !== "") {
                     if (stderr.startsWith("Error")) { // Error
                         reject(this.parseError(stderr));
-                    } else {
+                    } else if (stderr.startsWith("Warning")) {
                         resolve(this.parseError(stderr));
                     }
                 } else {
