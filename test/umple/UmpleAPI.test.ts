@@ -9,10 +9,10 @@ import * as fs from "fs";
 describe("UmpleAPI.ts", function () {
     const extensionPath = getExtensionPath();
     const umpleFolder = path.join(extensionPath, "resources", "umple");
+    this.timeout(50000);
 
     describe("UmpleApi", function () {
         describe("#generate", function () {
-            this.timeout(10000);
             it("should generate java code for a test umple file", async function () {
                 const umpleFile = Uri.parse(path.join(umpleFolder, "test.ump"));
                 const result = await umpleAPI.generate(umpleFile, "Java");
