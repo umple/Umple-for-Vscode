@@ -9,9 +9,9 @@ import * as fs from "fs";
 describe("UmpleAPI.ts", function () {
     const extensionPath = getExtensionPath();
     const umpleFolder = path.join(extensionPath, "resources", "umple");
-    this.timeout(100000);
 
     describe("UmpleApi", function () {
+        this.timeout(1000000); //for travis purposes
         describe("#generate", function () {
             it("should generate java code for a test umple file", async function () {
                 const umpleFile = Uri.parse(path.join(umpleFolder, "test.ump"));
