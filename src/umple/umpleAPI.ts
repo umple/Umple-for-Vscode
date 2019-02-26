@@ -18,6 +18,7 @@ class UmpleAPI {
     private _extensionPath: string | undefined;
 
     generate(uri: vscode.Uri, language: string, outputLocation?: string): Promise<Result[]> {
+        console.log("here");
         if (GENERATE_LANGS.indexOf(language) < 0) {
             return Promise.reject("language not supported");
         }
@@ -42,6 +43,7 @@ class UmpleAPI {
         const command = params.join(" ");
         return new Promise((resolve, reject) => {
             child_process.exec(command, (err, stdout, stderr) => {
+                console.log(stderr, err, stdout);
                 if (stderr && stderr !== "") {
                     if (stderr.startsWith("Error")) { // Error
                         reject(this.parseError(stderr));
