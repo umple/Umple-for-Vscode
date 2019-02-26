@@ -1,4 +1,4 @@
-import { Disposable, workspace, commands, Uri } from "vscode";
+import { Disposable, workspace, commands } from "vscode";
 import { lint } from "../umple/actions/lint";
 import { } from "fs";
 
@@ -9,8 +9,7 @@ export class Lint extends Disposable {
         super(() => this.dispose());
         this._disposable = commands.registerCommand("umple.lint", this.execute, this);
         workspace.onDidSaveTextDocument(lint);
-        this.execute();
-
+        workspace.onDidOpenTextDocument(lint);
     }
     dispose() {
         if (this._disposable) {
@@ -19,7 +18,6 @@ export class Lint extends Disposable {
     }
 
     async execute() {
-        await workspace.saveAll();
         const uris = await workspace.findFiles("**/[!build]*.ump");
         uris.forEach(uri => {
             lint(uri);
