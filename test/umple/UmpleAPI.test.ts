@@ -9,7 +9,7 @@ import * as fs from "fs";
 describe("UmpleAPI.ts", function () {
     const extensionPath = getExtensionPath();
     const umpleFolder = path.join(extensionPath, "resources", "umple");
-    this.timeout(50000);
+    this.timeout(100000);
 
     describe("UmpleApi", function () {
         describe("#generate", function () {
