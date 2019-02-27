@@ -78,7 +78,9 @@ class UmpleAPI {
         }
 
 
-        return [{ state, code, lineNum: Number(lineNum), fileName, message: errorMessage }];
+        const a =[{ state, code, lineNum: Number(lineNum), fileName, message: errorMessage }];
+        console.log(a);
+        return a;
     }
 
 }
