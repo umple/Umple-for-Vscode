@@ -12,11 +12,10 @@ describe("UmpleAPI.ts", function () {
 
     describe("UmpleApi", function () {
         this.timeout(10000); //for travis purposes
-        describe.only("#generate", function () {
+        describe("#generate", function () {
             it("should generate java code for a test umple file", async () => {
                 const umpleFile = Uri.parse(path.join(umpleFolder, "test.ump"));
                 const result = await umpleAPI.generate(umpleFile, "Java");
-                console.log("1", result);
                 assert.equal(result[0].state, 'success');
                 assert.equal(compileJava(Uri.parse(path.join(umpleFolder, "Person.java"))), true);
             });
@@ -24,13 +23,9 @@ describe("UmpleAPI.ts", function () {
             it("should fail for an incorrect file", async () => {
                 const umpleFile = Uri.parse(path.join(umpleFolder, "test-fail.ump"));
                 try {
-                    console.log("1.5", umpleFile);
-                    const result = await umpleAPI.generate(umpleFile, "Java");
-                    console.log("2", result);
-
+                    await umpleAPI.generate(umpleFile, "Java");
                     assert.fail();
                 } catch (err) {
-                    console.log("3", err);
                     assert.ok(err);
                 }
             });

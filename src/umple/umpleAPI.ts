@@ -18,7 +18,6 @@ class UmpleAPI {
     private _extensionPath: string | undefined;
 
     generate(uri: vscode.Uri, language: string, outputLocation?: string): Promise<Result[]> {
-        console.log("here");
         if (GENERATE_LANGS.indexOf(language) < 0) {
             return Promise.reject("language not supported");
         }
@@ -43,21 +42,18 @@ class UmpleAPI {
         const command = params.join(" ");
         return new Promise((resolve, reject) => {
             child_process.exec(command, (err, stdout, stderr) => {
-                console.log("aaaaaaaa", stderr, err, stdout);
                 if (stderr && stderr !== "") {
                     if (stderr.startsWith("Error")) { // Error
-                        console.log("error occurred");
                         reject(this.parseError(stderr));
                     } else if (stderr.startsWith("Warning")) {
-                        console.log("warning occurred");
                         resolve(this.parseError(stderr));
+                    } else {
+                        resolve([{ state: "success", message: stdout }]);
                     }
                 } else {
-                    console.log("success");
                     resolve([{ state: "success", message: stdout }]);
                 }
             });
-            console.log("something");
         });
     }
 
@@ -82,9 +78,7 @@ class UmpleAPI {
         }
 
 
-        const a = [{ state, code, lineNum: Number(lineNum), fileName, message: errorMessage }];
-        console.log(a);
-        return a;
+        return [{ state, code, lineNum: Number(lineNum), fileName, message: errorMessage }];
     }
 
 }
