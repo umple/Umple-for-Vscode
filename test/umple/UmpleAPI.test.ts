@@ -11,7 +11,7 @@ describe("UmpleAPI.ts", function () {
     const umpleFolder = path.join(extensionPath, "resources", "umple");
 
     describe("UmpleApi", function () {
-        this.timeout(1000000); //for travis purposes
+        this.timeout(10000); //for travis purposes
         describe("#generate", function () {
             it("should generate java code for a test umple file", async function () {
                 const umpleFile = Uri.parse(path.join(umpleFolder, "test.ump"));
