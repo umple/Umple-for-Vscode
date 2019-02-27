@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import * as path from "path";
-import { GENERATE_LANGS, umpleAPI } from "../umpleAPI";
+import { GENERATE_LANGS, umpleAPI, Result } from "../umpleAPI";
+import { umpleLint } from "../../helpers/UmpleLintingProvider";
 
 export async function generate() {
     let editor = vscode.window.activeTextEditor;
@@ -23,11 +24,16 @@ export async function generate() {
 
     try {
         const res = await umpleAPI.generate(editor.document.uri, format);
-        if (res.success && res.message) {
-            vscode.window.showInformationMessage(res.message);
+        if (res[0].state === 'success' && res[0].message) {
+            vscode.window.showInformationMessage(res[0].message || '');
+            umpleLint.lintFile(editor.document.uri, []);
+
         }
     } catch (e) {
-        vscode.window.showErrorMessage(e);
+        const err = e as Result[];
+
+        umpleLint.lintFile(editor.document.uri, err)
+        vscode.window.showErrorMessage(err[0].message || '');
     }
 }
 
