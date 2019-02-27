@@ -12,7 +12,7 @@ describe("UmpleAPI.ts", function () {
 
     describe("UmpleApi", function () {
         this.timeout(10000); //for travis purposes
-        describe("#generate", function () {
+        describe.only("#generate", function () {
             it("should generate java code for a test umple file", async () => {
                 const umpleFile = Uri.parse(path.join(umpleFolder, "test.ump"));
                 const result = await umpleAPI.generate(umpleFile, "Java");

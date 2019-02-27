@@ -43,7 +43,7 @@ class UmpleAPI {
         const command = params.join(" ");
         return new Promise((resolve, reject) => {
             child_process.exec(command, (err, stdout, stderr) => {
-                console.log(stderr, err, stdout);
+                console.log("aaaaaaaa", stderr, err, stdout);
                 if (stderr && stderr !== "") {
                     if (stderr.startsWith("Error")) { // Error
                         console.log("error occurred");
@@ -82,7 +82,7 @@ class UmpleAPI {
         }
 
 
-        const a =[{ state, code, lineNum: Number(lineNum), fileName, message: errorMessage }];
+        const a = [{ state, code, lineNum: Number(lineNum), fileName, message: errorMessage }];
         console.log(a);
         return a;
     }
