@@ -46,14 +46,18 @@ class UmpleAPI {
                 console.log(stderr, err, stdout);
                 if (stderr && stderr !== "") {
                     if (stderr.startsWith("Error")) { // Error
+                        console.log("error occurred");
                         reject(this.parseError(stderr));
                     } else if (stderr.startsWith("Warning")) {
+                        console.log("warning occurred");
                         resolve(this.parseError(stderr));
                     }
                 } else {
+                    console.log("success");
                     resolve([{ state: "success", message: stdout }]);
                 }
             });
+            console.log("something");
         });
     }
 
