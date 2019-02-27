@@ -24,6 +24,7 @@ describe("UmpleAPI.ts", function () {
             it("should fail for an incorrect file", async function () {
                 const umpleFile = Uri.parse(path.join(umpleFolder, "test-fail.ump"));
                 try {
+                    console.log("1.5", umpleFile);
                     const result = await umpleAPI.generate(umpleFile, "Java");
                     console.log("2", result);
 
