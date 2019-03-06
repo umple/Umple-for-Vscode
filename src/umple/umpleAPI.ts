@@ -42,43 +42,51 @@ class UmpleAPI {
         const command = params.join(" ");
         return new Promise((resolve, reject) => {
             child_process.exec(command, (err, stdout, stderr) => {
-                if (stderr && stderr !== "") {
-                    if (stderr.startsWith("Error")) { // Error
-                        reject(this.parseError(stderr));
-                    } else if (stderr.startsWith("Warning")) {
-                        resolve(this.parseError(stderr));
-                    } else {
-                        resolve([{ state: "success", message: stdout }]);
-                    }
-                } else {
-                    resolve([{ state: "success", message: stdout }]);
-                }
+                resolve(this.parseError(stderr, stdout));
             });
         });
     }
 
-    parseError(error: string): Result[] {
+    parseError(error: string, stdout: string): Result[] {
         const lines = error.split("\n");
+        const results: Result[] = [];
+        let errorFound: boolean = false;
+        while (lines.length > 0) {
 
-        //Error 1502 on line 5 of file 'test-fail.ump':
-        const errorMeta = lines[0].split(" ");
-        const errorMessage = lines[1];
+            if (lines[0].startsWith("Error") || lines[0].startsWith("Warning")) {
+                //Error 1502 on line 5 of file 'test-fail.ump':
+                const errorMeta = lines[0].split(" ");
+                const errorMessage = lines[1];
 
-        let [umpleState, code, , , lineNum, , , fileName] = errorMeta;
-        fileName = fileName.slice(0, -2).substr(1);
+                let [umpleState, code, , , lineNum, , , fileName] = errorMeta;
+                fileName = fileName.slice(0, -2).substr(1);
 
-        let state: Result["state"] = "success";
-        switch (umpleState.toLowerCase()) {
-            case 'error':
-                state = 'error';
-                break;
-            case 'warning':
-                state = 'warning';
-                break;
+                let state: Result["state"] = "success";
+                // for typechecking
+                switch (umpleState.toLowerCase()) {
+                    case 'error':
+                        state = 'error';
+                        errorFound = true;
+                        break;
+                    case 'warning':
+                        state = 'warning';
+                        break;
+                }
+                results.push({ state, code, lineNum: Number(lineNum), fileName, message: errorMessage });
+                lines.shift();
+                lines.shift();
+            } else {
+                lines.shift();
+            }
         }
 
+        if (!errorFound) {
+            const out = stdout.split('\n');
+            const index = out.findIndex(str => str.startsWith('Success'));
+            return [{ state: 'success', message: index < 0 ? stdout : out[index] }, ...results]
+        }
 
-        return [{ state, code, lineNum: Number(lineNum), fileName, message: errorMessage }];
+        return results;
     }
 
 }
