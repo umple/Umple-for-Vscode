@@ -65,8 +65,6 @@ class UmpleAPI {
             params.push("--path", outputLocation);
         }
 
-        uri.with({})
-
         params.push(uri.path);
 
         const command = params.join(" ");
@@ -84,7 +82,7 @@ class UmpleAPI {
         let errorFound: boolean = false;
         while (lines.length > 0) {
 
-            if (lines[0].match(/.*\.ump\:\d\:.*/)) {
+            if (lines[0].match(/.*\.ump\:\d*\:.*/)) {
                 results.push(this.parseJavaError(lines[0]));
                 errorFound = true;
                 lines.shift();
@@ -119,16 +117,15 @@ class UmpleAPI {
         if (!errorFound) {
             const out = stdout.split('\n');
             const index = out.findIndex(str => str.startsWith('Success'));
-            return [{ state: 'success', message: index < 0 ? stdout : out[index] }, ...results]
+            return [{ state: 'success', message: index < 0 ? stdout : out[index] }, ...results];
         }
 
         return results;
     }
 
-
     parseJavaError(err: string): Result {
         //test.ump:5: error: cannot find symbol
-        const [fileName, lineNum, state, message] = err.split(':');
+        const [fileName, lineNum, , message] = err.split(':');
         return { fileName: fileName, lineNum: Number(lineNum), state: 'error', message: message };
     }
 
