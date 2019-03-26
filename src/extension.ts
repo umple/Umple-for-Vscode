@@ -5,6 +5,8 @@ import * as vscode from "vscode";
 import { Generate } from "./commands/generate";
 import { Lint } from "./commands/lint";
 import { Compile } from "./commands/compile";
+import { umpleTree } from "./commands/UmpleTree";
+import { ShowGraph } from "./commands/showGraph";
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -15,8 +17,10 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(
         new Generate(),
         new Compile(),
-        new Lint()
+        new Lint(),
+        new ShowGraph()
     );
+    vscode.window.registerTreeDataProvider('umple-actions', umpleTree);
 
 }
 

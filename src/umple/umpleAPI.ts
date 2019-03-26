@@ -5,6 +5,7 @@ import * as path from "path";
 
 
 export const GENERATE_LANGS = ["Java", "Php", "Cpp", "Ruby", "Sql", "Umple"];
+export const GRAPH_LANGS = ["GvClassDiagram"];
 export const COMPILE_LANGS = ["Java"];
 
 export interface Result {
@@ -19,36 +20,24 @@ class UmpleAPI {
     private _extensionPath: string | undefined;
 
     generate(uri: vscode.Uri, language: string, outputLocation?: string): Promise<Result[]> {
-        if (GENERATE_LANGS.indexOf(language) < 0) {
+        if ((GENERATE_LANGS.indexOf(language) < 0)) {
             return Promise.reject("language not supported");
         }
-        if (!this._extensionPath) {
-            this._extensionPath = getExtensionPath();
+        return this.runCommand(uri, "-g", language, outputLocation);
+    }
+
+    graph(uri: vscode.Uri, language: string, outputLocation?: string): Promise<Result[]> {
+        if ((GRAPH_LANGS.indexOf(language) < 0)) {
+            return Promise.reject("language not supported");
         }
-        const params = [];
-        params.push(
-            "java",
-            "-jar",
-            path.join(this._extensionPath, "umple.jar"),
-            "-g",
-            language,
-        );
-
-        if (outputLocation) {
-            params.push("--path", outputLocation);
-        }
-
-        params.push(uri.toString(true));
-
-        const command = params.join(" ");
-        return new Promise((resolve, reject) => {
-            child_process.exec(command, (err, stdout, stderr) => {
-                resolve(this.parseError(stderr, stdout));
-            });
-        });
+        return this.runCommand(uri, "-g", language, outputLocation);
     }
 
     compile(uri: vscode.Uri, entryClass: string, outputLocation?: string): Promise<Result[]> {
+        return this.runCommand(uri, "--compile", entryClass, outputLocation);
+    }
+
+    private runCommand(uri: vscode.Uri, action: string, extra: string, outputLocation?: string): Promise<Result[]> {
         if (!this._extensionPath) {
             this._extensionPath = getExtensionPath();
         }
@@ -57,15 +46,15 @@ class UmpleAPI {
             "java",
             "-jar",
             path.join(this._extensionPath, "umple.jar"),
-            "--compile",
-            entryClass,
+            action,
+            extra,
         );
 
         if (outputLocation) {
             params.push("--path", outputLocation);
         }
 
-        params.push(uri.toString(true));
+        params.push(uri.fsPath);
 
         const command = params.join(" ");
         return new Promise((resolve, reject) => {
