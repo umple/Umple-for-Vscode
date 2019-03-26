@@ -6,19 +6,19 @@ import { umpleLint } from "../../helpers/UmpleLintingProvider";
 export async function compile() {
     let editor = vscode.window.activeTextEditor;
     if (!editor) {
-        vscode.window.showInformationMessage("Error occurred window");
+        vscode.window.showInformationMessage("Cannot access editor window");
         return;
     }
 
     if (!path.isAbsolute(editor.document.fileName)) {
-        vscode.window.showInformationMessage("Error occurred filename");
+        vscode.window.showInformationMessage("Cannot access file");
         return;
     }
 
     const format = await vscode.window.showInputBox({ prompt: 'Entry class' });
 
     if (!format || !editor.document.uri) {
-        vscode.window.showInformationMessage("Error occurred format");
+        vscode.window.showInformationMessage("Class not specified");
         return;
     }
 

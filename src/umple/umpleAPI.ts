@@ -38,7 +38,7 @@ class UmpleAPI {
             params.push("--path", outputLocation);
         }
 
-        params.push(uri.fsPath);
+        params.push(uri.toString(true));
 
         const command = params.join(" ");
         return new Promise((resolve, reject) => {
@@ -65,7 +65,7 @@ class UmpleAPI {
             params.push("--path", outputLocation);
         }
 
-        params.push(uri.path);
+        params.push(uri.toString(true));
 
         const command = params.join(" ");
         return new Promise((resolve, reject) => {
@@ -126,7 +126,7 @@ class UmpleAPI {
     parseJavaError(err: string): Result {
         //test.ump:5: error: cannot find symbol
         const [fileName, lineNum, , message] = err.split(':');
-        return { fileName: fileName, lineNum: Number(lineNum), state: 'error', message: message };
+        return { fileName: fileName, lineNum: Number(lineNum), state: 'error', message: message.trim() };
     }
 
 }
