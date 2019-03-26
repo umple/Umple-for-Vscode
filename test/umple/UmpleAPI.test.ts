@@ -29,7 +29,7 @@ describe("UmpleAPI.ts", function () {
         });
 
         describe("#parseResult", function () {
-            it("parses a basic error correctly", function () {
+            it("parses a umple generate error correctly", function () {
                 const result = "Error 1502 on line 1 of file 'test-fail.ump':\nParsing error: Structure of 'class' invalid";
 
                 const expect: Result[] = [{ state: "error", code: "1502", lineNum: 1, fileName: "test-fail.ump", message: "Parsing error: Structure of 'class' invalid" }];
@@ -38,11 +38,20 @@ describe("UmpleAPI.ts", function () {
 
 
             });
-            it("parses a basic warning correctly", function () {
+            it("parses a umple generate warning correctly", function () {
                 const result = "Warning 3 on line 3 of file 'test-fail.ump':\nThe lazy keyword is redundant when the attribute is being initialized - in class 'X3lazy'";
                 const expect: Result[] = [
                     { state: 'success', message: '' },
                     { state: "warning", code: "3", lineNum: 3, fileName: "test-fail.ump", "message": "The lazy keyword is redundant when the attribute is being initialized - in class 'X3lazy'" }
+                ];
+                assert.deepEqual(umpleAPI.parseError(result, ""), expect);
+
+
+            });
+            it("parses a umple compile error correctly", function () {
+                const result = "test.ump:3: error: cannot find symbol";
+                const expect: Result[] = [
+                    { state: "error", code: "3", lineNum: 3, fileName: "test.ump", "message": "cannot find symbol" }
                 ];
                 assert.deepEqual(umpleAPI.parseError(result, ""), expect);
 
