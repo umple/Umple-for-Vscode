@@ -1,28 +1,28 @@
 import * as vscode from "vscode";
 import * as path from "path";
-import { GENERATE_LANGS, umpleAPI } from "../umpleAPI";
+import { umpleAPI } from "../umpleAPI";
 import { umpleLint } from "../../helpers/UmpleLintingProvider";
 
-export async function generate() {
+export async function compile() {
     let editor = vscode.window.activeTextEditor;
     if (!editor) {
-        vscode.window.showInformationMessage("Error occurred window");
+        vscode.window.showInformationMessage("Cannot access editor window");
         return;
     }
 
     if (!path.isAbsolute(editor.document.fileName)) {
-        vscode.window.showInformationMessage("Error occurred filename");
+        vscode.window.showInformationMessage("Cannot access file");
         return;
     }
 
-    const format = await vscode.window.showQuickPick(GENERATE_LANGS);
+    const format = await vscode.window.showInputBox({ prompt: 'Entry class' });
 
     if (!format || !editor.document.uri) {
-        vscode.window.showInformationMessage("Error occurred format");
+        vscode.window.showInformationMessage("Class not specified");
         return;
     }
 
-    const res = await umpleAPI.generate(editor.document.uri, format);
+    const res = await umpleAPI.compile(editor.document.uri, format);
     umpleLint.lintFile(editor.document.uri, res);
     if (res[0].state === 'success' && res[0].message) {
         vscode.window.showInformationMessage(res[0].message || '');

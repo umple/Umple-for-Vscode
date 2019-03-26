@@ -9,7 +9,7 @@ export function testJava(): boolean {
 
 export function compileJava(uri: vscode.Uri): boolean {
     try {
-        child_process.execSync(`javac ${uri.fsPath}`);
+        child_process.execSync(`javac ${uri.toString(true)}`);
         return true;
     } catch (err) {
         console.log(err);

@@ -13,6 +13,7 @@
     "activationEvents": [
         "onCommand:umple.generate",
         "onCommand:umple.lint",
+        "onCommand:umple.compile",
         "onLanguage:umple"
     ],
     "main": "./out/src/extension",
@@ -21,6 +22,11 @@
             {
                 "command": "umple.generate",
                 "title": "Generate Code from Umple",
+                "category": "Umple"
+            },
+            {
+                "command": "umple.compile",
+                "title": "Compile Code from Umple",
                 "category": "Umple"
             },
             {

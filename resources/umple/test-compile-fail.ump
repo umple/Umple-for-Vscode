@@ -6,7 +6,9 @@ class Person
   
 class Student  
 {  
-  isA Person;  
-  Integer number;  
+  isA Person; 
+  static void main(){
+      List<String> list = new List<String>();
+  }
 }  
         

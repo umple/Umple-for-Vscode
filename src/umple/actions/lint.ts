@@ -14,6 +14,5 @@ export async function lint(textDocument: TextDocument | Uri) {
 
     // will always be a uri here
     const res = await umpleAPI.generate(textDocument, "Java", workspace.asRelativePath("build"));
-    umpleLint.clearFile(textDocument);
     umpleLint.lintFile(textDocument, res);
 }
