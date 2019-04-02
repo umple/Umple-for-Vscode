@@ -4,6 +4,10 @@
     "description": "Umple for Vscode",
     "version": "1.0.1",
     "publisher": "digized",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Digized/Umple-for-Vscode"
+    },
     "engines": {
         "vscode": "^1.28.0"
     },
@@ -60,7 +64,25 @@
                 "language": "umple",
                 "path": "./snippets/umple.json"
             }
-        ]
+        ],
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "icon": "./images/umple.svg",
+                    "id": "umple-tools",
+                    "title": "Umple"
+                }
+            ]
+        },
+        "views": {
+            "umple-tools": [
+                {
+                    "id": "umple-actions",
+                    "name": "Actions",
+                    "when": "resourceLangId == umple"
+                }
+            ]
+        }
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",

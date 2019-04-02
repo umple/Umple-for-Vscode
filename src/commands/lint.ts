@@ -1,6 +1,5 @@
 import { Disposable, workspace, commands } from "vscode";
 import { lint } from "../umple/actions/lint";
-import { } from "fs";
 
 export class Lint extends Disposable {
     private _disposable: Disposable;
@@ -18,10 +17,5 @@ export class Lint extends Disposable {
     }
 
     async execute() {
-        const uris = await workspace.findFiles("**/[!build]*.ump");
-        uris.forEach(uri => {
-            lint(uri);
-        });
-
     }
 }
