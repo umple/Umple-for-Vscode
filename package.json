@@ -5,7 +5,7 @@
     "version": "1.0.1",
     "publisher": "digized",
     "license": "MIT",    
-    "icon": "./images/umple.ico",
+    "icon": "images/umple.png",
     "repository": {
         "type": "git",
         "url": "https://github.com/Digized/Umple-for-Vscode"
