@@ -5,14 +5,23 @@ A language extension for the [Umple](http://cruise.site.uottawa.ca/umple/) Model
 ## Features
 
 - Syntax Highlighting.
+- Linting.
+- Umple panel.
+- Quickly generate and compile code.
 - Snippets.
     - generate a class.
 
-For example if there is an image subfolder under your extension project workspace:
+![snippets](images/README/lint.gif)
 
 ![snippets](images/README/snippets.gif)
 
 ## Release Notes
+
+### 1.0.1
+
+- Add support for error and warning highlighting. 
+- Umple is now packaged with the extension for easier use.
+- sidebar to access commands easier
 
 ### 1.0.0
 
