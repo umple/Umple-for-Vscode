@@ -10,7 +10,7 @@ A language extension for the [Umple](http://cruise.site.uottawa.ca/umple/) Model
 
 For example if there is an image subfolder under your extension project workspace:
 
-![snippets](images/snippets.gif)
+![snippets](images/README/snippets.gif)
 
 ## Release Notes
 

@@ -19,36 +19,17 @@ class UmpleAPI {
     private _extensionPath: string | undefined;
 
     generate(uri: vscode.Uri, language: string, outputLocation?: string): Promise<Result[]> {
-        if (GENERATE_LANGS.indexOf(language) < 0) {
+        if ((GENERATE_LANGS.indexOf(language) < 0)) {
             return Promise.reject("language not supported");
         }
-        if (!this._extensionPath) {
-            this._extensionPath = getExtensionPath();
-        }
-        const params = [];
-        params.push(
-            "java",
-            "-jar",
-            path.join(this._extensionPath, "umple.jar"),
-            "-g",
-            language,
-        );
-
-        if (outputLocation) {
-            params.push("--path", outputLocation);
-        }
-
-        params.push(uri.toString(true));
-
-        const command = params.join(" ");
-        return new Promise((resolve, reject) => {
-            child_process.exec(command, (err, stdout, stderr) => {
-                resolve(this.parseError(stderr, stdout));
-            });
-        });
+        return this.runCommand(uri, "-g", language, outputLocation);
     }
 
     compile(uri: vscode.Uri, entryClass: string, outputLocation?: string): Promise<Result[]> {
+        return this.runCommand(uri, "--compile", entryClass, outputLocation);
+    }
+
+    private runCommand(uri: vscode.Uri, action: string, extra: string, outputLocation?: string): Promise<Result[]> {
         if (!this._extensionPath) {
             this._extensionPath = getExtensionPath();
         }
@@ -57,15 +38,16 @@ class UmpleAPI {
             "java",
             "-jar",
             path.join(this._extensionPath, "umple.jar"),
-            "--compile",
-            entryClass,
+            action,
+            extra,
         );
 
         if (outputLocation) {
             params.push("--path", outputLocation);
         }
 
-        params.push(uri.toString(true));
+        params.push(uri.fsPath);
+
 
         const command = params.join(" ");
         return new Promise((resolve, reject) => {
@@ -83,8 +65,12 @@ class UmpleAPI {
         while (lines.length > 0) {
 
             if (lines[0].match(/.*\.ump\:\d*\:.*/)) {
-                results.push(this.parseJavaError(lines[0]));
+                results.push(this.parseJavaError(lines[0], lines[1], lines[2], lines[3], lines[4]));
                 errorFound = true;
+                lines.shift();
+                lines.shift();
+                lines.shift();
+                lines.shift();
                 lines.shift();
             } else if (lines[0].startsWith("Error") || lines[0].startsWith("Warning")) {
                 //Error 1502 on line 5 of file 'test-fail.ump':
@@ -123,10 +109,11 @@ class UmpleAPI {
         return results;
     }
 
-    parseJavaError(err: string): Result {
+    parseJavaError(err: string, lineofCode: string, pointer: string, symbol: string, location: string): Result {
         //test.ump:5: error: cannot find symbol
         const [fileName, lineNum, , message] = err.split(':');
-        return { fileName: fileName, lineNum: Number(lineNum), state: 'error', message: message.trim() };
+        let msg = `${message.trim()}\n${lineofCode}\n${pointer}\n${symbol.trim()}\n${location.trim()}`;
+        return { fileName: fileName, lineNum: Number(lineNum), state: 'error', message: msg };
     }
 
 }
