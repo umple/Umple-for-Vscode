@@ -1,12 +1,5 @@
-// A superclass-subclass relationship defined using the isA keyword  
-class Person
+ class Student  
 {  
-  name;  
-}  
-  
-class Student  
-{  
-  isA Person; 
   static void main(){
       List<String> list = new List<String>();
   }
