@@ -25,7 +25,6 @@ describe("util.ts", function () {
         const javaFolder = path.join(getExtensionPath(), "resources", "java");
 
         it("should compile test java file and pass", function () {
-            console.log(javaFolder);
             const javaFile = Uri.file(path.join(javaFolder, "Person.java"));
             assert.equal(compileJava(javaFile), true);
         });
