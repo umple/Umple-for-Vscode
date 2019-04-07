@@ -3,6 +3,11 @@ All notable changes to the "umple" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.0.2]
+### [Modified]
+- Minor textual changes
+- Compile doesn't require a main class anymore
+
 
 ## [1.0.1]
 ### [Added]

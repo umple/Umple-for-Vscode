@@ -25,11 +25,11 @@ class UmpleAPI {
         return this.runCommand(uri, "-g", language, outputLocation);
     }
 
-    compile(uri: vscode.Uri, entryClass: string, outputLocation?: string): Promise<Result[]> {
-        return this.runCommand(uri, "--compile", entryClass, outputLocation);
+    compile(uri: vscode.Uri, outputLocation?: string): Promise<Result[]> {
+        return this.runCommand(uri, "-c-", outputLocation);
     }
 
-    private runCommand(uri: vscode.Uri, action: string, extra: string, outputLocation?: string): Promise<Result[]> {
+    private runCommand(uri: vscode.Uri, action: string, extra?: string, outputLocation?: string): Promise<Result[]> {
         if (!this._extensionPath) {
             this._extensionPath = getExtensionPath();
         }
@@ -39,8 +39,11 @@ class UmpleAPI {
             "-jar",
             path.join(this._extensionPath, "umple.jar"),
             action,
-            extra,
         );
+
+        if(extra) {
+            params.push(extra);
+        }
 
         if (outputLocation) {
             params.push("--path", outputLocation);
