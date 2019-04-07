@@ -27,24 +27,24 @@ describe("UmpleAPI.ts", function () {
 
             });
 
-            
+
         });
 
         describe("#compile", function () {
             it("should compile to java a test umple file", async () => {
                 const umpleFile = Uri.file(path.join(umpleFolder, "test.ump"));
-                const result = await umpleAPI.compile(umpleFile, "Student");
+                const result = await umpleAPI.compile(umpleFile);
                 assert.equal(result[0].state, 'success');
             });
 
             it("should fail for an incorrect file", async () => {
                 const umpleFile = Uri.parse(path.join(umpleFolder, "test-compile-fail.ump"));
-                const result = await umpleAPI.compile(umpleFile, "Student");
+                const result = await umpleAPI.compile(umpleFile);
                 assert.notEqual(result[0].state, 'success');
 
             });
 
-            
+
         });
 
         describe("#parseResult", function () {

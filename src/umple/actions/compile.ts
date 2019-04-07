@@ -15,14 +15,7 @@ export async function compile() {
         return;
     }
 
-    const format = await vscode.window.showInputBox({ prompt: 'Entry class' });
-
-    if (!format || !editor.document.uri) {
-        vscode.window.showInformationMessage("Class not specified");
-        return;
-    }
-
-    const res = await umpleAPI.compile(editor.document.uri, format);
+    const res = await umpleAPI.compile(editor.document.uri);
     umpleLint.lintFile(editor.document.uri, res);
     if (res[0].state === 'success' && res[0].message) {
         vscode.window.showInformationMessage(res[0].message || '');

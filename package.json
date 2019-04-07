@@ -2,9 +2,9 @@
     "name": "umple",
     "displayName": "Umple",
     "description": "Umple for Vscode",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "publisher": "digized",
-    "license": "MIT",    
+    "license": "MIT",
     "icon": "images/umple.png",
     "repository": {
         "type": "git",
@@ -80,8 +80,7 @@
             "umple-tools": [
                 {
                     "id": "umple-actions",
-                    "name": "Actions",
-                    "when": "resourceLangId == umple"
+                    "name": "Actions"
                 }
             ]
         }
