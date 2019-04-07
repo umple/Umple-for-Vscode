@@ -8,7 +8,7 @@
     "icon": "images/umple.png",
     "repository": {
         "type": "git",
-        "url": "https://github.com/Digized/Umple-for-Vscode"
+        "url": "https://github.com/umple/Umple-for-Vscode"
     },
     "engines": {
         "vscode": "^1.28.0"
