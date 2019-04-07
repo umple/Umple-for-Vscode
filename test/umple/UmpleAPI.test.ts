@@ -17,7 +17,7 @@ describe("UmpleAPI.ts", function () {
                 const umpleFile = Uri.file(path.join(umpleFolder, "test.ump"));
                 const result = await umpleAPI.generate(umpleFile, "Java");
                 assert.equal(result[0].state, 'success');
-                assert.equal(compileJava(Uri.parse(path.join(umpleFolder, "Person.java"))), true);
+                assert.equal(compileJava(Uri.file(path.join(umpleFolder, "Person.java"))), true);
             });
 
             it("should fail for an incorrect file", async () => {
