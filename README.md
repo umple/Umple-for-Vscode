@@ -18,6 +18,9 @@ Umple is a modeling tool and programming language family to enable what we call 
 
 ## Release Notes
 
+## [1.0.3]
+- Bug Fix
+
 ### 1.0.2
 
 - Minor textual changes
