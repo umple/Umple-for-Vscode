@@ -37,6 +37,12 @@ describe("UmpleAPI.ts", function () {
                 assert.equal(result[0].state, 'success');
             });
 
+            it("should compile to java a test umple file in directory with space", async () => {
+                const umpleFile = Uri.file(path.join(umpleFolder, "dir with space", "test.ump"));
+                const result = await umpleAPI.compile(umpleFile);
+                assert.equal(result[0].state, 'success');
+            });
+
             it("should fail for an incorrect file", async () => {
                 const umpleFile = Uri.file(path.join(umpleFolder, "test-compile-fail.ump"));
                 const result = await umpleAPI.compile(umpleFile);
@@ -79,7 +85,7 @@ describe("UmpleAPI.ts", function () {
         });
 
         afterEach(function () {
-            glob("!(*.ump)", { cwd: umpleFolder }, (err, matches) => {
+            glob("**/!(*.ump)", { cwd: umpleFolder,  }, (err, matches) => {
                 matches.map(match => fs.unlink(path.join(umpleFolder, match), (err) => { }));
             });
         });

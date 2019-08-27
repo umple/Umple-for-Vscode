@@ -1,0 +1,12 @@
+// A superclass-subclass relationship defined using the isA keyword  
+class Person
+{  
+  name;  
+}  
+  
+class Student  
+{  
+  isA Person;  
+  Integer number;  
+}  
+        

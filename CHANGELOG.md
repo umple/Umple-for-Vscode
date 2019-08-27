@@ -3,6 +3,10 @@ All notable changes to the "umple" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.0.3]
+### [Fixed]
+- https://github.com/umple/Umple-for-Vscode/issues/13 
+
 ## [1.0.2]
 ### [Modified]
 - Minor textual changes

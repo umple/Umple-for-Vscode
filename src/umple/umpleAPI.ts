@@ -49,7 +49,7 @@ class UmpleAPI {
             params.push("--path", outputLocation);
         }
 
-        params.push(uri.fsPath);
+        params.push(JSON.stringify(uri.fsPath));
 
 
         const command = params.join(" ");
