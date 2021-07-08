@@ -12,10 +12,10 @@ import * as assert from 'assert';
 // import * as umpleCode from '../umpleMain';
 
 // Defines a Mocha test suite to group tests of similar kind together
-describe("Extension Tests", function(){
+describe("Extension Tests", function () {
 
     // Defines a Mocha unit test
-    it("should run tests", function() {
+    it("should run tests", function () {
         assert.equal([1, 2, 3].indexOf(4), -1);
     });
 });
