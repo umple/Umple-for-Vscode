@@ -11,7 +11,7 @@
         "url": "https://github.com/umple/Umple-for-Vscode"
     },
     "engines": {
-        "vscode": "^1.28.0"
+        "vscode": "^1.57.1"
     },
     "categories": [
         "Programming Languages"
@@ -89,19 +89,21 @@
         "vscode:prepublish": "npm run compile",
         "compile": "tsc -p ./",
         "watch": "tsc -watch -p ./",
-        "postinstall": "node ./node_modules/vscode/bin/install && curl http://try.umple.org/scripts/umple.jar --output umple.jar",
-        "test": "npm run compile && node ./node_modules/vscode/bin/test"
+        "postinstall": "curl https://try.umple.org/scripts/umple.jar --output umple.jar",
+        "test": "npm run compile && node ./out/runTests.js"
     },
     "devDependencies": {
         "@types/glob": "^7.1.1",
         "@types/mocha": "^2.2.42",
-        "@types/node": "^8.10.25",
+        "@types/node": "^8.10.66",
         "@types/simple-mock": "^0.8.1",
+        "@types/vscode": "^1.57.1",
         "glob": "^7.1.3",
+        "mocha": "^9.0.2",
         "simple-mock": "^0.8.0",
         "tslint": "^5.8.0",
-        "typescript": "^2.6.1",
-        "vscode": "^1.1.22"
+        "typescript": "^4.3.5",
+        "vscode-test": "^1.5.2"
     },
     "dependencies": {}
 }
