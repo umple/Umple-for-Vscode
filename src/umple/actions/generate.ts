@@ -17,6 +17,11 @@ export async function generate() {
 
     const format = await vscode.window.showQuickPick(GENERATE_LANGS);
 
+    if(!format){
+        vscode.window.showInformationMessage("No language is selected");
+        return;
+    }
+
     if (!format || !editor.document.uri) {
         vscode.window.showInformationMessage("Error occurred format");
         return;
