@@ -25,7 +25,12 @@ export async function generate() {
     const res = await umpleAPI.generate(editor.document.uri, format);
     umpleLint.lintFile(editor.document.uri, res);
     if (res[0].state === 'success' && res[0].message) {
-        vscode.window.showInformationMessage(res[0].message || '');
+        var extension =  format == 'Ruby'? 'rb' :format=='Umple'?'ump':format.toLowerCase();
+        var message = res[0].message.replace('.ump','.'+ extension);
+        vscode.window.showInformationMessage(message || '');
+    }
+    if(res[1].state == 'error' && res[1].message){
+        vscode.window.showInformationMessage( res[1].message || '');
     }
 }
 
