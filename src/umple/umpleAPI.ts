@@ -41,7 +41,7 @@ class UmpleAPI {
             action,
         );
 
-        if(extra) {
+        if (extra) {
             params.push(extra);
         }
 
