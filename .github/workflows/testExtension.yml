@@ -30,7 +30,7 @@ jobs:
       - name: Use latest java
         uses: actions/setup-java@v2.1.0
         with:
-          distribution: adopt
+          distribution: temurin
           java-version: 17
       - run: npm install
       - run: xvfb-run -a npm test
