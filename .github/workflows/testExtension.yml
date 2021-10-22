@@ -31,7 +31,7 @@ jobs:
         uses: actions/setup-java@v2.1.0
         with:
           distribution: adopt
-          java-version: 8
+          java-version: 17
       - run: npm install
       - run: xvfb-run -a npm test
         if: runner.os == 'Linux'
