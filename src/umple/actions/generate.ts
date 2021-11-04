@@ -2,9 +2,10 @@ import * as vscode from "vscode";
 import * as path from "path";
 import { GENERATE_LANGS, umpleAPI } from "../umpleAPI";
 import { umpleLint } from "../../helpers/UmpleLintingProvider";
+import { Lint } from "../../commands/lint";
 
-export async function generate() {
-    let editor = vscode.window.activeTextEditor;
+export async function generate(this: any) {
+    const editor = vscode.window.activeTextEditor;
     if (!editor) {
         vscode.window.showInformationMessage("Error occurred window");
         return;
@@ -17,16 +18,51 @@ export async function generate() {
 
     const format = await vscode.window.showQuickPick(GENERATE_LANGS);
 
+    if(!format){
+        vscode.window.showInformationMessage("No language is selected");
+        return;
+    }
     if (!format || !editor.document.uri) {
         vscode.window.showInformationMessage("Error occurred format");
         return;
     }
+    
+    var containsError = Lint._storage.getValue("containsCompileError");
 
-    const res = await umpleAPI.generate(editor.document.uri, format);
-    umpleLint.lintFile(editor.document.uri, res);
-    if (res[0].state === 'success' && res[0].message) {
-        vscode.window.showInformationMessage(res[0].message || '');
-    }
+    if(containsError){
+        vscode.window
+        .showInformationMessage(
+          "Your umple code has an error. Do you want to generate the code based on the last successful compile?",
+          ...["Yes", "No"]
+        )
+        .then(async (resp) => {
+          if (resp === "No") {
+            return;
+          }else{
+            const res = await umpleAPI.generate(editor.document.uri, format);
+            umpleLint.lintFile(editor.document.uri, res);
+            if (res[0].state === 'success' && res[0].message) {
+                var extension =  format == 'Ruby'? 'rb' :format=='Umple'?'ump':format.toLowerCase();
+                var message = res[0].message.replace('.ump','.'+ extension);
+                vscode.window.showInformationMessage(message || '');
+            }
+            if(res[1].state == 'error' && res[1].message){
+                vscode.window.showInformationMessage( res[1].message || '');
+            }
+          }
+        });
+    }else{
+        const res = await umpleAPI.generate(editor.document.uri, format);
+        umpleLint.lintFile(editor.document.uri, res);
+        if (res[0].state === 'success' && res[0].message) {
+            var extension =  format == 'Ruby'? 'rb' :format=='Umple'?'ump':format.toLowerCase();
+            var message = res[0].message.replace('.ump','.'+ extension);
+            vscode.window.showInformationMessage(message || '');
+        }
+        if(res[1].state == 'error' && res[1].message){
+            vscode.window.showInformationMessage( res[1].message || '');
+        }
+    } 
 }
 
 
