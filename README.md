@@ -18,23 +18,5 @@ Umple is a modeling tool and programming language family to enable what we call 
 
 ## Release Notes
 
-## [1.0.3]
-- Bug Fix
-
-### 1.0.2
-
-- Minor textual changes
-- Compile doesn't require a main class anymore
-
-
-### 1.0.1
-
-- Add support for error and warning highlighting. 
-- Umple is now packaged with the extension for easier use.
-- sidebar to access commands easier
-
-### 1.0.0
-
-Initial release of umple language. 
-- syntax highlighting
-- basic snippets
+## [1.1.0]
+- Improve Error UX -- thanks to @shoevancar
