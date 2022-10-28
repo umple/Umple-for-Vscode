@@ -16,11 +16,9 @@ describe("compile.ts", function () {
         await vscode.window.onDidChangeActiveTextEditor(async () => {
             const get = simple.stub();
             const update = simple.stub();
-            const keys = simple.stub();
             const memento: vscode.Memento = {
                 get,
-                update,
-                keys
+                update
             }
             const storageService = new LocalStorageService(memento)
             await compile(storageService);
