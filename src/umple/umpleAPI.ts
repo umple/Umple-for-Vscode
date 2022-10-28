@@ -22,10 +22,16 @@ class UmpleAPI {
         if ((GENERATE_LANGS.indexOf(language) < 0)) {
             return Promise.reject("language not supported");
         }
+        
+        if (language == "Cpp") {
+            language = "RTCpp";
+        }
+
         return this.runCommand(uri, "-g", language, outputLocation);
     }
 
     compile(uri: vscode.Uri, outputLocation?: string): Promise<Result[]> {
+        //updateUmple();
         return this.runCommand(uri, "-c-", outputLocation);
     }
 
@@ -51,15 +57,16 @@ class UmpleAPI {
 
         params.push(JSON.stringify(uri.fsPath));
 
-
         const command = params.join(" ");
         return new Promise((resolve, reject) => {
             child_process.exec(command, (err, stdout, stderr) => {
+                let outputChannel = vscode.window.createOutputChannel("Umple");
+                outputChannel.appendLine(stderr);
+                outputChannel.show(true);
                 resolve(this.parseError(stderr, stdout));
             });
         });
     }
-
 
     parseError(error: string, stdout: string): Result[] {
         const lines = error.split("\n");

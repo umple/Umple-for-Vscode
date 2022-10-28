@@ -18,7 +18,10 @@ describe("compile.ts", function () {
             const update = simple.stub();
             const memento: vscode.Memento = {
                 get,
-                update
+                update,
+                keys: function (): readonly string[] {
+                    throw new Error("Function not implemented.");
+                }
             }
             const storageService = new LocalStorageService(memento)
             await compile(storageService);

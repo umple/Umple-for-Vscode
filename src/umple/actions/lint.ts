@@ -15,7 +15,7 @@ export async function lint(textDocument: TextDocument | Uri) {
     }
     // will always be a uri here
     const res = await umpleAPI.generate(textDocument, "Java", workspace.asRelativePath("build"));
-    if(res.some(x=>x.state!='success' && x.code && parseInt(x.code) >1000)){
+    if(res.some(x=>x.state!='success' && x.code && parseInt(x.code) > 1000)){
         Lint._storage.setValue<boolean>("containsCompileError",true);
     }else{
         Lint._storage.setValue<boolean>("containsCompileError",false);
