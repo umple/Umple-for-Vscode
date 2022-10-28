@@ -16,12 +16,11 @@ describe("compile.ts", function () {
         await vscode.window.onDidChangeActiveTextEditor(async () => {
             const get = simple.stub();
             const update = simple.stub();
+            const keys = simple.stub();
             const memento: vscode.Memento = {
                 get,
                 update,
-                keys: function (): readonly string[] {
-                    throw new Error("Function not implemented.");
-                }
+                keys
             }
             const storageService = new LocalStorageService(memento)
             await compile(storageService);
