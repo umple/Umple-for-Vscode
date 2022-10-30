@@ -1,5 +1,6 @@
 import * as child_process from "child_process";
 import * as vscode from "vscode";
+import * as fs from 'fs';
 
 
 export function testJava(): boolean {
@@ -12,7 +13,6 @@ export function compileJava(uri: vscode.Uri): boolean {
         child_process.execSync(`javac ${uri.fsPath}`);
         return true;
     } catch (err) {
-        console.log(err);
         return false;
     }
 }
@@ -28,4 +28,31 @@ export function getExtensionPath(): string {
         throw Error("Cannot find Extension");
     }
     return extension.extensionPath;
+}
+
+export function updateUmple() {
+    let config = vscode.workspace.getConfiguration("umple");
+    if (!config.get('update')) {
+        return;
+    }
+    
+    let latestVersion: string;
+    try {
+        latestVersion = child_process.execSync(`curl -L https://cruise.umple.org/umpleonline/scripts/versionRunning.txt`).toString();
+        latestVersion = latestVersion.trim();
+    } catch (error) {
+        return;
+    }
+
+    if (fs.existsSync(`${getExtensionPath()}/umple.jar`)) {
+        let currentVersion = child_process.execSync(`java -jar ${getExtensionPath()}/umple.jar -v`).toString().replace("Version: ", "");
+        currentVersion = currentVersion.trim();
+        if (latestVersion !== currentVersion) {
+            child_process.execSync(`curl https://try.umple.org/scripts/umple.jar --output ${getExtensionPath()}/umple.jar`);
+        }
+    } else {
+        child_process.execSync(`curl https://try.umple.org/scripts/umple.jar --output ${getExtensionPath()}/umple.jar`);
+    }
+
+    
 }
