@@ -4,7 +4,7 @@ import * as child_process from "child_process";
 import * as path from "path";
 
 
-export const GENERATE_LANGS = ["Java", "Php", "Cpp", "Ruby", "Sql", "Umple"];
+export const GENERATE_LANGS = ["Nothing", "Java", "Php", "Cpp", "Ruby", "Sql", "Umple"];
 export const COMPILE_LANGS = ["Java"];
 
 export interface Result {

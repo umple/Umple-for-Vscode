@@ -1,4 +1,4 @@
-import { TextDocument, TextDocumentChangeEvent, Uri, workspace } from "vscode";
+import { TextDocument, TextDocumentChangeEvent, Uri } from "vscode";
 import { umpleAPI } from "../umpleAPI";
 import { umpleLint } from "../../helpers/UmpleLintingProvider";
 import { Lint } from "../../commands/lint";
@@ -14,8 +14,8 @@ export async function lint(textDocument: TextDocument | Uri) {
         }
     }
     // will always be a uri here
-    const res = await umpleAPI.generate(textDocument, "Java", workspace.asRelativePath("build"));
-    if(res.some(x=>x.state!='success' && x.code && parseInt(x.code) > 1000)){
+    const res = await umpleAPI.generate(textDocument, "Nothing");
+    if(res.some(x=>x.state!='success' && x.code && parseInt(x.code) >1000)){
         Lint._storage.setValue<boolean>("containsCompileError",true);
     }else{
         Lint._storage.setValue<boolean>("containsCompileError",false);
