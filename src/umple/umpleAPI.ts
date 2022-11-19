@@ -4,7 +4,7 @@ import * as child_process from "child_process";
 import * as path from "path";
 
 
-export const GENERATE_LANGS = ["Nothing", "Java", "Php", "Cpp", "Ruby", "Sql", "Umple"];
+export const GENERATE_LANGS = ["Java", "Php", "Cpp", "Ruby", "Sql", "Umple"];
 export const COMPILE_LANGS = ["Java"];
 
 export interface Result {
@@ -19,7 +19,7 @@ class UmpleAPI {
     private _extensionPath: string | undefined;
 
     generate(uri: vscode.Uri, language: string, outputLocation?: string): Promise<Result[]> {
-        if ((GENERATE_LANGS.indexOf(language) < 0)) {
+        if ((GENERATE_LANGS.indexOf(language) < 0) && language != "Nothing" ) {
             return Promise.reject("language not supported");
         }
         
