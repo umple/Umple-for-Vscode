@@ -32,7 +32,7 @@ class UmpleLintingProvider {
             let code: string | {value: string | number, target: vscode.Uri}
             code = result.code || ''; 
             if (this.errorCodeMap.get(code))
-                code = {value: result.code || parseInt(result.code!), target: vscode.Uri.parse(this.errorCodeMap.get(code)!)};
+                code = {value: result.code || parseInt(result.code!), target: vscode.Uri.parse(this.errorCodeMap.get(code)?.trim()!)};
             const message = result.message || '';
             const lineNum = result.lineNum || 1;
             const range = new vscode.Range(new vscode.Position(lineNum - 1, 0), new vscode.Position(lineNum - 1, 255));
