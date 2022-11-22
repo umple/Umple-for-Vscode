@@ -39,7 +39,7 @@ export async function generate() {
         }
     }
 
-    const outputLocation = vscode.workspace.asRelativePath(format);
+    const outputLocation = vscode.workspace.asRelativePath(format.replace(/\s/g, ""));
     const res = await umpleAPI.generate(editor.document.uri, format, outputLocation);
     umpleLint.lintFile(editor.document.uri, res);
     
