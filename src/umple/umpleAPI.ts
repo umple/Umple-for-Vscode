@@ -4,7 +4,10 @@ import * as child_process from "child_process";
 import * as path from "path";
 
 
-export const GENERATE_LANGS = ["Java", "Php", "Cpp", "Ruby", "Sql", "Umple"];
+export const GENERATE_LANGS = ["Alloy", "Cpp", "Ecore", "GraphViz Class Diagram", "GraphViz Class Trait Diagram",
+    "GraphViz Entity Relationship Diagram", "GraphViz Feature Diagram", "GraphViz State Diagram", "Java", "Json", 
+    "NuSMV", "Papyrus", "Php", "Plain Requirements Doc", "Python", "Ruby", "Scxml", "Simple Metrics", "Simulate", 
+    "Sql","Structure Diagram", "Test", "TextUml", "USE", "Uigu2", "UMLet", "Umple", "Violet", "Xmi", "Xtext", "Yuml"];
 export const COMPILE_LANGS = ["Java"];
 
 export interface Result {
@@ -19,13 +22,21 @@ class UmpleAPI {
     private _extensionPath: string | undefined;
 
     generate(uri: vscode.Uri, language: string, outputLocation?: string): Promise<Result[]> {
-        if ((GENERATE_LANGS.indexOf(language) < 0)) {
+        if ((GENERATE_LANGS.indexOf(language) < 0) && language != "Nothing" ) {
             return Promise.reject("language not supported");
         }
+        
+        if (language == "Cpp") {
+            language = "RTCpp";
+        }
+
+        language = language.replace(/\s/g, "");
+        language = language.replace("GraphViz", "Gv");
         return this.runCommand(uri, "-g", language, outputLocation);
     }
 
     compile(uri: vscode.Uri, outputLocation?: string): Promise<Result[]> {
+        //updateUmple();
         return this.runCommand(uri, "-c-", outputLocation);
     }
 
@@ -51,15 +62,16 @@ class UmpleAPI {
 
         params.push(JSON.stringify(uri.fsPath));
 
-
         const command = params.join(" ");
         return new Promise((resolve, reject) => {
             child_process.exec(command, (err, stdout, stderr) => {
+                let outputChannel = vscode.window.createOutputChannel("Umple");
+                outputChannel.appendLine(stderr);
+                outputChannel.show(true);
                 resolve(this.parseError(stderr, stdout));
             });
         });
     }
-
 
     parseError(error: string, stdout: string): Result[] {
         const lines = error.split("\n");
