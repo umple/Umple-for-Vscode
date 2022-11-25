@@ -7,6 +7,7 @@ import { Lint } from "./commands/lint";
 import { Compile } from "./commands/compile";
 import { umpleTree } from "./commands/UmpleTree";
 import { LocalStorageService } from "./helpers/LocalStorageProvider";
+import { updateUmple } from "./umple/util";
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -21,7 +22,7 @@ export function activate(context: vscode.ExtensionContext) {
         new Lint(storageManager)
     );
     vscode.window.registerTreeDataProvider('umple-actions', umpleTree);
-
+    updateUmple();
 }
 
 // this method is called when your extension is deactivated

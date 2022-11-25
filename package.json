@@ -83,7 +83,17 @@
                     "name": "Actions"
                 }
             ]
-        }
+        },
+        "configuration": {
+            "title": "Umple",
+            "properties": {
+                "umple.update": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Update to the latest officially released version of the umple jar."
+                }
+            }
+        }      
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",
