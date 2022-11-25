@@ -25,20 +25,27 @@
 					<key>name</key>
 					<string>storage.modifier.package.java</string>
 				</dict>
-				<key>3</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.terminator.java</string>
-				</dict>
 			</dict>
 			<key>match</key>
-			<string>^\s*(namespace)\s+([^ ;$]+)\s*(;)</string>
+			<string>^\s*(namespace|import|require|use|generate|tracer)\s+([^ ;$]+)\s*</string>
 			<key>name</key>
 			<string>meta.package.java</string>
 		</dict>
 		<dict>
 			<key>include</key>
 			<string>#code</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#association</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#annotations</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#filter</string>
 		</dict>
 	</array>
 	<key>repository</key>
@@ -99,7 +106,7 @@
 		<key>class</key>
 		<dict>
 			<key>begin</key>
-			<string>(?=\w?[\w\s]*(?:class|interface|enum)\s+\w+)</string>
+			<string>(?=\w?[\w\s]*(?:class|interface|enum|trait|mixset|statemachine|test|associationClass)\s+\w+)</string>
 			<key>end</key>
 			<string>}</string>
 			<key>endCaptures</key>
@@ -123,6 +130,24 @@
 					<string>#comments</string>
 				</dict>
 				<dict>
+					<key>include</key>
+					<string>#strings</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#all-types</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#regex</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\b(association)\b</string>
+					<key>name</key>
+					<string>keyword.other.java</string>
+				</dict>
+				<dict>
 					<key>captures</key>
 					<dict>
 						<key>1</key>
@@ -137,7 +162,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(class|interface|enum)\s+(\w+)</string>
+					<string>(class|interface|enum|trait|mixset|statemachine|test|associationClass)\s+(\w+)</string>
 					<key>name</key>
 					<string>meta.class.identifier.java</string>
 				</dict>
@@ -213,6 +238,18 @@
 				<dict>
 					<key>include</key>
 					<string>#code</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#model</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#precondition</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#tracing</string>
 				</dict>
 			</array>
 		</dict>
@@ -402,7 +439,7 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>\b(this|super)\b</string>
+					<string>\b(this|super|self)\b</string>
 					<key>name</key>
 					<string>variable.language.java</string>
 				</dict>
@@ -702,7 +739,7 @@
 			<array>
 				<dict>
 					<key>match</key>
-					<string>\b(try|catch|finally|throw)\b</string>
+					<string>\b(try|catch|finally|throw|new)\b</string>
 					<key>name</key>
 					<string>keyword.control.catch-exception.java</string>
 				</dict>
@@ -714,15 +751,27 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>\b(return|break|case|continue|default|do|while|for|switch|if|else)\b</string>
+					<string>\b(return|exit|break|case|continue|default|do|while|for|switch|if|else|before|after|around|around_proceed|entry|active|emit|pooled|sorted|queued)\b</string>
 					<key>name</key>
 					<string>keyword.control.java</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>\b(instanceof)\b</string>
+					<string>\b(instanceof)\s+</string>
 					<key>name</key>
-					<string>keyword.operator.java</string>
+					<string>keyword.other.java</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\b(as)\s+</string>
+					<key>name</key>
+					<string>keyword.other.java</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\b(association)\b</string>
+					<key>name</key>
+					<string>keyword.other.java</string>
 				</dict>
 				<dict>
 					<key>match</key>
@@ -795,13 +844,13 @@
 		<key>method-call</key>
 		<dict>
 			<key>begin</key>
-			<string>([\w$]+)(\()</string>
+			<string>([\w$]+)\s*(\()</string>
 			<key>beginCaptures</key>
 			<dict>
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>meta.method.java</string>
+					<string>entity.name.function.java</string>
 				</dict>
 				<key>2</key>
 				<dict>
@@ -856,6 +905,10 @@
 				<dict>
 					<key>include</key>
 					<string>#storage-modifiers</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#keywords</string>
 				</dict>
 				<dict>
 					<key>begin</key>
@@ -1102,6 +1155,10 @@
 					<string>#object-types</string>
 				</dict>
 				<dict>
+					<key>include</key>
+					<string>#strings</string>
+				</dict>
+				<dict>
 					<key>match</key>
 					<string>\w+</string>
 					<key>name</key>
@@ -1158,7 +1215,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>\b(public|private|protected|static|final|native|synchronized|abstract|threadsafe|transient)\b</string>
+			<string>\b(public|private|protected|static|inner|final|native|synchronized|abstract|threadsafe|transient|generic|const|lazy|unique|autounique|strictness|defaulted|internal|external|immutable|settable|distributable|singleton|custom|generated)\b</string>
 		</dict>
 		<key>strings</key>
 		<dict>
@@ -1282,7 +1339,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>(?x: (?= (?: (?:private|protected|public|native|synchronized|abstract|threadsafe|transient|static|final) | (?:def) 												 | (?:void|boolean|byte|char|short|int|float|long|double) | (?:(?:[a-z]\w*\.)*[A-Z]+\w*) 						 ) \s+(?!private|protected|public|native|synchronized|abstract|threadsafe|transient |static|final|def|void|boolean|byte|char|short|int|float|long|double)	[\w\d_&lt;&gt;\[\],\?][\w\d_&lt;&gt;\[\],\?\s\t]*										(?:=|$) ) )</string>
+					<string>(?x: (?= (?: (?:private|protected|public|native|synchronized|abstract|threadsafe|transient|static|inner|final|generic|const|lazy|unique|autounique|strictness|defaulted|internal|external|immutable|settable|distributable) | (?:def) 												 | (?:void|boolean|byte|char|short|int|float|long|double) | (?:(?:[a-z]\w*\.)*[A-Z]+\w*) 						 ) \s+(?!private|protected|public|native|synchronized|abstract|threadsafe|transient|generic|static|inner|final|const|lazy|unique|autounique|strictness|defaulted|internal|external|immutable|settable|distributable|def|void|boolean|byte|char|short|int|float|long|double)	[\w\d_&lt;&gt;\[\],\?][\w\d_&lt;&gt;\[\],\?\s\t]*										(?:=|$) ) )</string>
 					<key>end</key>
 					<string>(?=;)</string>
 					<key>name</key>
@@ -1353,6 +1410,212 @@
 						<dict>
 							<key>include</key>
 							<string>#code</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>model</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>\[\s*(model)\s*</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>storage.modifier.java</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>]</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>captures</key>
+							<dict>
+								<key>1</key>
+								<dict>
+									<key>name</key>
+									<string>storage.type.generic.java</string>
+								</dict>
+							</dict>
+							<key>match</key>
+							<string>\b(isA|has|superclass)\b</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#comments</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>precondition</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>\[\s*(pre)\s*</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>storage.modifier.java</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>]</string>
+				</dict>
+			</array>
+		</dict>
+		<key>association</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>\b(association)\b{</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>storage.modifier.java</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>}</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#comments</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#all-types</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>tracing</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>\b(trace)\s</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>storage.modifier.java</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>;</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>match</key>
+							<string>\b(add|remove|for|where|giving|after|until)\b</string>
+							<key>name</key>
+							<string>keyword.control.java</string>
+						</dict>
+						<dict>
+							<key>match</key>
+							<string>\b(cardinality)\b</string>
+							<key>name</key>
+							<string>variable.parameter.java</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#comments</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#strings</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>regex</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>\b\.?(regex)\(</string>
+					<key>name</key>
+					<string>entity.name.function.java</string>
+				</dict>
+			</array>
+		</dict>
+		<key>annotations</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>@(\w+)\b</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.generic.java</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>\s</string>
+				</dict>
+			</array>
+		</dict>
+		<key>filter</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>\b(filter)\b</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>storage.modifier.java</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>}</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>match</key>
+							<string>\b(include|includeFilter|hops|sub|super|association|namespace)\b</string>
+							<key>name</key>
+							<string>keyword.other.java</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#comments</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#strings</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#all-types</string>
 						</dict>
 					</array>
 				</dict>
