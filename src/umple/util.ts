@@ -58,11 +58,14 @@ export function updateUmple() {
     getErrorCodeFile();
 }
 
-// Download error code file
+// Extract error code file
 export function getErrorCodeFile() {
-    let filePath = path.join(getExtensionPath(), 'src', 'en.error');
-    child_process.execSync(`curl https://raw.githubusercontent.com/umple/umple/master/cruise.umple/src/en.error --output ${filePath}`);
-    let text = fs.readFileSync(filePath,'utf8');
+    let umplePath = path.join(getExtensionPath(), 'umple.jar');
+    let filePath = path.join(getExtensionPath(), 'src');
+    let errFile = path.join(getExtensionPath(), 'src', 'en.error');
+
+    child_process.execSync(`cd ${filePath} && jar xf ${umplePath} en.error`);
+    let text = fs.readFileSync(errFile,'utf8');
     let newText = "";
     text.split("\n").forEach( line => {
         if (line.startsWith("#") || !line.trim()) {
@@ -73,5 +76,5 @@ export function getErrorCodeFile() {
         newText += newLine;
     });
 
-    fs.writeFileSync(filePath, newText);
+    fs.writeFileSync(errFile, newText);
 }
