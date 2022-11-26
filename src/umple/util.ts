@@ -1,4 +1,5 @@
 import * as child_process from "child_process";
+import * as path from 'path';
 import * as vscode from "vscode";
 import * as fs from 'fs';
 
@@ -54,5 +55,23 @@ export function updateUmple() {
         child_process.execSync(`curl https://try.umple.org/scripts/umple.jar --output ${getExtensionPath()}/umple.jar`);
     }
 
-    
+    getErrorCodeFile();
+}
+
+// Download error code file
+export function getErrorCodeFile() {
+    let filePath = path.join(getExtensionPath(), 'src', 'en.error');
+    child_process.execSync(`curl https://raw.githubusercontent.com/umple/umple/master/cruise.umple/src/en.error --output ${filePath}`);
+    let text = fs.readFileSync(filePath,'utf8');
+    let newText = "";
+    text.split("\n").forEach( line => {
+        if (line.startsWith("#") || !line.trim()) {
+            return;
+        }
+
+        let newLine = line.split(':')[0].trim() + "," + line.split('"')[1] + "\n";
+        newText += newLine;
+    });
+
+    fs.writeFileSync(filePath, newText);
 }

@@ -1,8 +1,9 @@
 import * as vscode from "vscode";
 import { Result } from "../umple/umpleAPI";
-import { getExtensionPath } from "../umple/util";
+import { getExtensionPath, getErrorCodeFile } from "../umple/util";
 import * as path from 'path';
 import * as fs from 'fs';
+
 
 
 class UmpleLintingProvider {
@@ -12,6 +13,9 @@ class UmpleLintingProvider {
 
     constructor() {
         this.diagnosticCollection = vscode.languages.createDiagnosticCollection();
+        if (!fs.existsSync(`${getExtensionPath()}/src/en.error`)) {
+            getErrorCodeFile();
+        }
         this.errorCodeMap = this.getErrorCodeMap();
     }
 
@@ -68,7 +72,7 @@ class UmpleLintingProvider {
 
     // Read the file to get error code and urls
     getErrorCodeMap(): Map<string, string> {
-        let filePath = path.join(getExtensionPath(), 'src', 'en.error')
+        let filePath = path.join(getExtensionPath(), 'src', 'en.error');
         let text = fs.readFileSync(filePath,'utf8');
         let pairs = text.split("\n").map(chunk => chunk.split(",") as [string, string]); 
         const errMap = new Map<string, string>(pairs);
