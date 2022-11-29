@@ -5,6 +5,14 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [1.1.0]
 ### [Added]
+- Update Umple to the latest version automatically
+
+### [Modified]
+- Update syntax highlight for umple keywords https://cruise.umple.org/umple/ListofUmpleKeywords.html
+- Improve Error UX, Error code is linked to the user manuals
+
+## [1.1.0]
+### [Added]
 - Improve Error UX -- thanks to @shoevancar
 
 ## [1.0.3]
