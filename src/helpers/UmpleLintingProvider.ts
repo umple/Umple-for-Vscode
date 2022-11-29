@@ -13,7 +13,7 @@ class UmpleLintingProvider {
 
     constructor() {
         this.diagnosticCollection = vscode.languages.createDiagnosticCollection();
-        if (!fs.existsSync(`${getExtensionPath()}/src/en.error`)) {
+        if (!fs.existsSync(`${getExtensionPath()}/en.error`)) {
             getErrorCodeFile();
         }
         this.errorCodeMap = this.getErrorCodeMap();
@@ -72,7 +72,7 @@ class UmpleLintingProvider {
 
     // Read the file to get error code and urls
     getErrorCodeMap(): Map<string, string> {
-        let filePath = path.join(getExtensionPath(), 'src', 'en.error');
+        let filePath = path.join(getExtensionPath(), 'en.error');
         let text = fs.readFileSync(filePath,'utf8');
         let pairs = text.split("\n").map(chunk => chunk.split(",") as [string, string]); 
         const errMap = new Map<string, string>(pairs);
