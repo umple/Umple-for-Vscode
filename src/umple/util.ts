@@ -61,10 +61,9 @@ export function updateUmple() {
 // Extract error code file
 export function getErrorCodeFile() {
     let umplePath = path.join(getExtensionPath(), 'umple.jar');
-    let filePath = path.join(getExtensionPath(), 'src');
-    let errFile = path.join(getExtensionPath(), 'src', 'en.error');
+    let errFile = path.join(getExtensionPath(), 'en.error');
 
-    child_process.execSync(`cd ${filePath} && jar xf ${umplePath} en.error`);
+    child_process.execSync(`cd ${getExtensionPath()} && jar xf ${umplePath} en.error`);
     let text = fs.readFileSync(errFile,'utf8');
     let newText = "";
     text.split("\n").forEach( line => {
