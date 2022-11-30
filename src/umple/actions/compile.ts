@@ -5,12 +5,11 @@ import { umpleLint } from "../../helpers/UmpleLintingProvider";
 import { LocalStorageService } from "../../helpers/LocalStorageProvider";
 
 export async function compile(storageService: LocalStorageService) {
- let isCompiling = storageService.getValue("isCompiling"); 
-
-if (isCompiling) {
-   // vscode.window.showInformationMessage("Compilation already in progress.");
-    return;
-}
+    let isCompiling = storageService.getValue("isCompiling"); 
+    // compilation already in progress
+    if (isCompiling) {
+        return;
+    }
     let editor = vscode.window.activeTextEditor;
     if (!editor) {
         vscode.window.showInformationMessage("Cannot access editor window");
