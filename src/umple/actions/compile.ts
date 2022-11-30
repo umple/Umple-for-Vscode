@@ -6,9 +6,8 @@ import { LocalStorageService } from "../../helpers/LocalStorageProvider";
 
 export async function compile(storageService: LocalStorageService) {
     let isCompiling = storageService.getValue("isCompiling"); 
-
+    // compilation already in progress
     if (isCompiling) {
-        //vscode.window.showInformationMessage("Compilation already in progress.");
         return;
     }
     let editor = vscode.window.activeTextEditor;
