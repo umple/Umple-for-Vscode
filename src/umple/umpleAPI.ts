@@ -36,7 +36,6 @@ class UmpleAPI {
     }
 
     compile(uri: vscode.Uri, outputLocation?: string): Promise<Result[]> {
-        //updateUmple();
         return this.runCommand(uri, "-c-", outputLocation);
     }
 
