@@ -19,7 +19,7 @@ export function compileJava(uri: vscode.Uri): boolean {
 }
 
 export function testUmple(): boolean {
-    child_process.execSync(`java -jar ${getExtensionPath()}/umple.jar -version`);
+    child_process.execSync(`java -jar "${getExtensionPath()}/umple.jar" -version`);
     return true;
 }
 
@@ -46,13 +46,13 @@ export function updateUmple() {
     }
 
     if (fs.existsSync(`${getExtensionPath()}/umple.jar`)) {
-        let currentVersion = child_process.execSync(`java -jar ${getExtensionPath()}/umple.jar -v`).toString().replace("Version: ", "");
+        let currentVersion = child_process.execSync(`java -jar "${getExtensionPath()}/umple.jar" -v`).toString().replace("Version: ", "");
         currentVersion = currentVersion.trim();
         if (latestVersion !== currentVersion) {
-            child_process.execSync(`curl https://try.umple.org/scripts/umple.jar --output ${getExtensionPath()}/umple.jar`);
+            child_process.execSync(`curl https://try.umple.org/scripts/umple.jar --output "${getExtensionPath()}/umple.jar"`);
         }
     } else {
-        child_process.execSync(`curl https://try.umple.org/scripts/umple.jar --output ${getExtensionPath()}/umple.jar`);
+        child_process.execSync(`curl https://try.umple.org/scripts/umple.jar --output "${getExtensionPath()}/umple.jar"`);
     }
 
     getErrorCodeFile();
@@ -63,7 +63,7 @@ export function getErrorCodeFile() {
     let umplePath = path.join(getExtensionPath(), 'umple.jar');
     let errFile = path.join(getExtensionPath(), 'en.error');
 
-    child_process.execSync(`cd ${getExtensionPath()} && jar xf ${umplePath} en.error`);
+    child_process.execSync(`cd "${getExtensionPath()}" && jar xf "${umplePath}" en.error`);
     let text = fs.readFileSync(errFile,'utf8');
     let newText = "";
     text.split("\n").forEach( line => {
