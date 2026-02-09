@@ -8,6 +8,7 @@
 !node_modules/**
 
 # Exclude dev files
+.umple-lsp/**
 src/**
 scripts/**
 **/*.ts
