@@ -1,0 +1,28 @@
+# Ship compiled output + assets
+!package.json
+!README.md
+!LICENSE
+!language-configuration.json
+!out/**
+!syntaxes/**
+!node_modules/**
+
+# Exclude dev files
+src/**
+scripts/**
+**/*.ts
+!**/*.d.ts
+tsconfig.json
+tsconfig.tsbuildinfo
+package-lock.json
+.DS_Store
+.gitignore
+CLAUDE.md
+
+# Exclude unnecessary files from node_modules
+node_modules/umple-lsp-server/src/**
+node_modules/**/test/**
+node_modules/**/tests/**
+node_modules/**/.github/**
+node_modules/**/CHANGELOG.md
+node_modules/**/CHANGES.md

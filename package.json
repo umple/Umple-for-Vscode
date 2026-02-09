@@ -1,0 +1,64 @@
+{
+  "name": "umple-lsp",
+  "displayName": "umple-language-server",
+  "description": "Language server for the Umple modeling language",
+  "version": "0.1.0",
+  "publisher": "umple",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DraftTin/umple.vscode"
+  },
+  "engines": {
+    "vscode": "^1.108.0"
+  },
+  "main": "./out/extension.js",
+  "categories": [
+    "Programming Languages"
+  ],
+  "activationEvents": [],
+  "scripts": {
+    "compile": "tsc -p .",
+    "watch": "tsc -watch -p .",
+    "vscode:prepublish": "npm run compile && sh ./scripts/prepare-vsix.sh"
+  },
+  "contributes": {
+    "configuration": {
+      "title": "Umple",
+      "properties": {
+        "umple.autoUpdate": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically update umplesync.jar to the latest version on startup."
+        }
+      }
+    },
+    "languages": [
+      {
+        "id": "umple",
+        "aliases": [
+          "Umple",
+          "umple"
+        ],
+        "extensions": [
+          ".ump"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "umple",
+        "scopeName": "source.umple",
+        "path": "./syntaxes/umple.tmLanguage"
+      }
+    ]
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/vscode": "^1.108.1",
+    "typescript": "^5.7.2"
+  }
+}
