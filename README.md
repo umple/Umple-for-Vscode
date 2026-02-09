@@ -15,51 +15,24 @@ A VS Code extension for the [Umple](https://www.umple.org) modeling language. Pr
 
 - **Node.js 18+**
 - **Java 11+** (for the Umple compiler)
+- **Git** (for fetching the LSP server)
 
-## Installation
-
-Install from the VS Code Marketplace (coming soon) or build from source:
+## Getting Started
 
 ```bash
-# Clone this repo and the LSP server
 git clone https://github.com/DraftTin/umple.vscode.git
-git clone https://github.com/DraftTin/umple-lsp.git
-
-# Build the LSP server
-cd umple-lsp
-npm install
-npm run compile
-npm run download-jar
-cd ..
-
-# Build the extension
 cd umple.vscode
-npm install
-npm link ../umple-lsp/packages/server
+npm install      # automatically clones, builds, and copies the LSP server
 npm run compile
 ```
 
-## Development
-
-```bash
-# Link the local server package for development
-npm link ../umple-lsp/packages/server
-
-# Compile
-npm run compile
-
-# Watch mode
-npm run watch
-```
-
-Test by pressing `F5` in VS Code to launch the Extension Development Host, then open a `.ump` file.
+Press `F5` in VS Code to launch the Extension Development Host, then open a `.ump` file.
 
 ## Packaging
 
 To build a `.vsix` for distribution:
 
 ```bash
-UMPLE_LSP_DIR=../umple-lsp ./scripts/prepare-vsix.sh
 npx @vscode/vsce package
 ```
 

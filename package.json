@@ -17,9 +17,10 @@
   ],
   "activationEvents": [],
   "scripts": {
+    "postinstall": "sh ./scripts/postinstall.sh",
     "compile": "tsc -p .",
     "watch": "tsc -watch -p .",
-    "vscode:prepublish": "npm run compile && sh ./scripts/prepare-vsix.sh"
+    "vscode:prepublish": "npm run compile"
   },
   "contributes": {
     "configuration": {
