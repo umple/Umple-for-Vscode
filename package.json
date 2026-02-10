@@ -17,7 +17,7 @@
   ],
   "activationEvents": [],
   "scripts": {
-    "postinstall": "sh ./scripts/postinstall.sh",
+    "postinstall": "node scripts/postinstall.js",
     "compile": "tsc -p .",
     "watch": "tsc -watch -p .",
     "vscode:prepublish": "npm run compile"
