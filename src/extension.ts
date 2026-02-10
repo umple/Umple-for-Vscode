@@ -14,21 +14,21 @@ let client: LanguageClient | undefined;
 export async function activate(
   context: vscode.ExtensionContext,
 ): Promise<void> {
-  // Check for Java
-  if (!checkJava()) {
-    vscode.window.showErrorMessage(
-      "Java is required for Umple LSP. Please install Java and restart VS Code.",
-    );
-    return;
-  }
-
   // Resolve server package directory
   const serverDir = path.dirname(
     require.resolve("umple-lsp-server/package.json"),
   );
 
-  // Update umplesync.jar if needed (downloads into server package dir)
-  await updateUmpleSyncJar(serverDir);
+  // Check for Java — only needed for diagnostics, not for completion/go-to-def
+  const hasJava = checkJava();
+  if (!hasJava) {
+    vscode.window.showWarningMessage(
+      "Java not found. Umple diagnostics are disabled. Install Java 11+ and restart VS Code to enable them.",
+    );
+  } else {
+    // Update umplesync.jar if needed (downloads into server package dir)
+    await updateUmpleSyncJar(serverDir);
+  }
 
   const serverModule = require.resolve("umple-lsp-server/out/server.js");
 

@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import * as https from "https";
 import * as child_process from "child_process";
 import * as path from "path";
 import * as vscode from "vscode";
@@ -52,13 +53,34 @@ export function getCurrentVersion(jarPath: string): string | null {
 }
 
 /**
+ * Follow redirects and fetch content from an HTTPS URL.
+ */
+function httpsGet(url: string): Promise<Buffer> {
+  return new Promise((resolve, reject) => {
+    https.get(url, (res) => {
+      if (res.statusCode && res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
+        httpsGet(res.headers.location).then(resolve, reject);
+        return;
+      }
+      if (res.statusCode && res.statusCode !== 200) {
+        reject(new Error(`HTTP ${res.statusCode}`));
+        return;
+      }
+      const chunks: Buffer[] = [];
+      res.on("data", (chunk: Buffer) => chunks.push(chunk));
+      res.on("end", () => resolve(Buffer.concat(chunks)));
+      res.on("error", reject);
+    }).on("error", reject);
+  });
+}
+
+/**
  * Get the latest version number from Umple server.
  */
 export async function getLatestVersion(): Promise<string | null> {
   try {
-    const output = child_process
-      .execSync(`curl -sL "${UMPLE_VERSION_URL}"`, { encoding: "utf8" })
-      .trim();
+    const buf = await httpsGet(UMPLE_VERSION_URL);
+    const output = buf.toString("utf8").trim();
     if (!output) return null;
     return extractSemanticVersion(output);
   } catch {
@@ -71,12 +93,8 @@ export async function getLatestVersion(): Promise<string | null> {
  */
 export async function downloadUmpleSyncJar(jarPath: string): Promise<boolean> {
   try {
-    child_process.execSync(
-      `curl -L "${UMPLESYNC_JAR_URL}" --output "${jarPath}"`,
-      {
-        stdio: "inherit",
-      },
-    );
+    const buf = await httpsGet(UMPLESYNC_JAR_URL);
+    fs.writeFileSync(jarPath, buf);
     return true;
   } catch (error) {
     console.error("Failed to download umplesync.jar:", error);
