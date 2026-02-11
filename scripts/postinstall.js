@@ -21,7 +21,7 @@ if (fs.existsSync(path.join(LSP_DIR, ".git"))) {
   run("git pull", LSP_DIR);
 } else {
   console.log("postinstall: cloning umple-lsp ...");
-  run(`git clone https://github.com/DraftTin/umple-lsp.git "${LSP_DIR}"`);
+  run(`git clone https://github.com/umple/umple-lsp.git "${LSP_DIR}"`);
 }
 
 console.log("postinstall: installing dependencies ...");

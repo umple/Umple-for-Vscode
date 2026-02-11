@@ -11,26 +11,24 @@ A VS Code extension for the [Umple](https://www.umple.org) modeling language. Pr
 - **Cross-file support** - Transitive `use` statement resolution and cross-file diagnostics
 - **Import error reporting** - Errors in imported files shown on the `use` statement line
 
-## Prerequisites
+## Requirements
 
 - **Node.js 18+**
-- **Java 11+** (for the Umple compiler)
+- **Java 11+** (optional — only needed for diagnostics)
 - **Git** (for fetching the LSP server)
 
-## Getting Started
+## Installation
+
+Install from the VS Code Marketplace (coming soon), or build from source:
 
 ```bash
-git clone https://github.com/DraftTin/umple.vscode.git
+git clone https://github.com/umple/umple.vscode.git
 cd umple.vscode
 npm install      # automatically clones, builds, and copies the LSP server
 npm run compile
 ```
 
-Press `F5` in VS Code to launch the Extension Development Host, then open a `.ump` file.
-
-## Packaging
-
-To build a `.vsix` for distribution:
+To package as `.vsix`:
 
 ```bash
 npx @vscode/vsce package
@@ -42,9 +40,50 @@ npx @vscode/vsce package
 |---------|------|---------|-------------|
 | `umple.autoUpdate` | boolean | `true` | Automatically update umplesync.jar on startup |
 
+## Development
+
+To test local changes to the LSP server:
+
+1. Clone both repos side by side:
+
+```
+workspace/
+├── umple-lsp/       # LSP server monorepo
+└── umple.vscode/    # This extension
+```
+
+2. Build the server:
+
+```bash
+cd umple-lsp
+npm install
+npm run compile
+npm run download-jar
+```
+
+3. Link the local server into the extension:
+
+```bash
+cd umple.vscode
+npm install
+npm link ../umple-lsp/packages/server
+npm run compile
+```
+
+4. Press **F5** in VS Code to launch the Extension Development Host.
+
+5. After making changes to the server, recompile and reload:
+
+```bash
+cd umple-lsp
+npm run compile
+```
+
+Then in the dev host: `Cmd+Shift+P` (or `Ctrl+Shift+P`) → **Developer: Reload Window**
+
 ## Architecture
 
-This extension is a thin client that launches the [Umple LSP server](https://github.com/DraftTin/umple-lsp). The server handles diagnostics, completion, and go-to-definition.
+This extension is a thin client that launches the [Umple LSP server](https://github.com/umple/umple-lsp). The server handles diagnostics, completion, and go-to-definition.
 
 ```
 VS Code Extension (this repo)

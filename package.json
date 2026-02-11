@@ -6,7 +6,7 @@
   "publisher": "umple",
   "repository": {
     "type": "git",
-    "url": "https://github.com/DraftTin/umple.vscode"
+    "url": "https://github.com/umple/umple.vscode"
   },
   "engines": {
     "vscode": "^1.108.0"
