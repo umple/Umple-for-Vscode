@@ -89,17 +89,23 @@ export async function getLatestVersion(): Promise<string | null> {
 }
 
 /**
- * Download umplesync.jar from the Umple server.
+ * Download umplesync.jar from the Umple server, retrying up to 3 times.
  */
 export async function downloadUmpleSyncJar(jarPath: string): Promise<boolean> {
-  try {
-    const buf = await httpsGet(UMPLESYNC_JAR_URL);
-    fs.writeFileSync(jarPath, buf);
-    return true;
-  } catch (error) {
-    console.error("Failed to download umplesync.jar:", error);
-    return false;
+  const attempts = 3;
+  for (let i = 1; i <= attempts; i++) {
+    try {
+      const buf = await httpsGet(UMPLESYNC_JAR_URL);
+      fs.writeFileSync(jarPath, buf);
+      return true;
+    } catch (error) {
+      console.error(`Failed to download umplesync.jar (attempt ${i}/${attempts}):`, error);
+      if (i < attempts) {
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+      }
+    }
   }
+  return false;
 }
 
 /**
@@ -115,14 +121,23 @@ export async function updateUmpleSyncJar(extensionPath: string): Promise<void> {
 
   // Check if JAR exists
   if (!fs.existsSync(jarPath)) {
-    vscode.window.withProgress(
+    await vscode.window.withProgress(
       {
         location: vscode.ProgressLocation.Notification,
         title: "Downloading umplesync.jar...",
         cancellable: false,
       },
       async () => {
-        await downloadUmpleSyncJar(jarPath);
+        const ok = await downloadUmpleSyncJar(jarPath);
+        if (!ok) {
+          const choice = await vscode.window.showWarningMessage(
+            "Failed to download umplesync.jar. Diagnostics are disabled (completion and go-to-definition still work).",
+            "Retry",
+          );
+          if (choice === "Retry") {
+            await updateUmpleSyncJar(extensionPath);
+          }
+        }
       },
     );
     return;
@@ -144,17 +159,19 @@ export async function updateUmpleSyncJar(extensionPath: string): Promise<void> {
     );
 
     if (result === "Update") {
-      vscode.window.withProgress(
+      await vscode.window.withProgress(
         {
           location: vscode.ProgressLocation.Notification,
           title: "Updating umplesync.jar...",
           cancellable: false,
         },
         async () => {
-          await downloadUmpleSyncJar(jarPath);
-          vscode.window.showInformationMessage(
-            "umplesync.jar updated successfully!",
-          );
+          const ok = await downloadUmpleSyncJar(jarPath);
+          if (ok) {
+            vscode.window.showInformationMessage("umplesync.jar updated successfully!");
+          } else {
+            vscode.window.showWarningMessage("Failed to update umplesync.jar. Will retry on next startup.");
+          }
         },
       );
     }

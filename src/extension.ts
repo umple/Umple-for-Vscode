@@ -67,5 +67,5 @@ export function deactivate(): Thenable<void> | undefined {
     return undefined;
   }
 
-  return client.stop();
+  return client.dispose();
 }
