@@ -15,7 +15,6 @@ A VS Code extension for the [Umple](https://www.umple.org) modeling language. Pr
 
 - **Node.js 18+**
 - **Java 11+** (optional — only needed for diagnostics)
-- **Git** (for fetching the LSP server)
 
 ## Installation
 
@@ -24,7 +23,7 @@ Install from the VS Code Marketplace (coming soon), or build from source:
 ```bash
 git clone https://github.com/umple/umple.vscode.git
 cd umple.vscode
-npm install      # automatically clones, builds, and copies the LSP server
+npm install      # automatically downloads umple-lsp-server from npm
 npm run compile
 ```
 
@@ -58,7 +57,6 @@ workspace/
 cd umple-lsp
 npm install
 npm run compile
-npm run download-jar
 ```
 
 3. Link the local server into the extension:
